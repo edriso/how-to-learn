@@ -1,0 +1,78 @@
+import { Quote } from 'lucide-react'
+import { ACCENTS } from '@/data/accents'
+import { BIG_IDEA, SUPER_STRATEGIES } from '@/data/learning'
+import { Reveal } from '@/components/ui/Reveal'
+import { Section } from '@/components/ui/Section'
+import { cn } from '@/lib/utils'
+
+export function StartHere() {
+  return (
+    <Section
+      id="start"
+      eyebrow="Start Here"
+      title="The one big idea"
+      intro="If you remember nothing else, remember this. It powers almost everything in this guide."
+    >
+      <Reveal className="mx-auto max-w-3xl">
+        <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-brand-600 to-brand-800 p-8 text-white shadow-lift sm:p-12">
+          <Quote className="absolute top-6 right-6 h-16 w-16 text-white/10" />
+          <p className="font-display text-2xl leading-snug font-semibold sm:text-3xl">
+            {`“${BIG_IDEA.quote}”`}
+          </p>
+          <p className="mt-6 leading-relaxed text-brand-50/90">
+            {BIG_IDEA.body}
+          </p>
+          <div className="mt-8 inline-flex flex-wrap items-center gap-x-2 gap-y-1 rounded-full bg-white/15 px-4 py-2 text-sm font-semibold backdrop-blur">
+            <span className="text-accent-300">The golden rule:</span>
+            <span>{BIG_IDEA.rule}</span>
+          </div>
+        </div>
+      </Reveal>
+
+      <div className="mx-auto mt-14 max-w-5xl">
+        <Reveal className="mb-8 text-center">
+          <h3 className="font-display text-2xl font-bold text-slate-900 dark:text-white">
+            The 3 super-strategies
+          </h3>
+          <p className="mt-2 text-slate-600 dark:text-slate-400">
+            Everything else in the guide builds on these three.
+          </p>
+        </Reveal>
+
+        <div className="grid gap-5 sm:grid-cols-3">
+          {SUPER_STRATEGIES.map((strategy, index) => {
+            const Icon = strategy.icon
+            return (
+              <Reveal key={strategy.id} delay={index * 0.08}>
+                <div className="h-full rounded-2xl border border-slate-200/80 bg-white p-6 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift dark:border-slate-800 dark:bg-slate-900">
+                  <span
+                    className={cn(
+                      'flex h-12 w-12 items-center justify-center rounded-2xl shadow-soft',
+                      ACCENTS[strategy.accent].chip,
+                    )}
+                  >
+                    <Icon className="h-6 w-6" />
+                  </span>
+                  <h4 className="mt-4 font-display text-lg font-semibold text-slate-900 dark:text-white">
+                    {strategy.title}
+                  </h4>
+                  <p
+                    className={cn(
+                      'mt-1 text-sm font-semibold',
+                      ACCENTS[strategy.accent].text,
+                    )}
+                  >
+                    {strategy.short}
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                    {strategy.detail}
+                  </p>
+                </div>
+              </Reveal>
+            )
+          })}
+        </div>
+      </div>
+    </Section>
+  )
+}

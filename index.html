@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#7c3aed" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+    <meta
+      name="description"
+      content="Learn how to learn. A free, friendly, science-backed guide to studying smarter — active recall, spaced repetition, focus, and beating procrastination. For students, online learners, and everyone."
+    />
+    <meta property="og:title" content="How to Learn — Your Guide to Learning How to Learn" />
+    <meta
+      property="og:description"
+      content="Proven, science-backed techniques to help you learn anything faster and remember it longer."
+    />
+    <meta property="og:type" content="website" />
+    <title>How to Learn — Your Guide to Learning How to Learn</title>
+    <script>
+      // Apply the saved theme before first paint to avoid a flash of the wrong theme.
+      (function () {
+        try {
+          var saved = localStorage.getItem('htl-theme')
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+          var isDark = saved ? saved === 'dark' : prefersDark
+          document.documentElement.classList.toggle('dark', isDark)
+        } catch (e) {}
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
