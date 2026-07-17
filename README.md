@@ -1,5 +1,7 @@
 # How to Learn
 
+> **Live → [edriso.github.io/how-to-learn](https://edriso.github.io/how-to-learn/)**
+
 A free, friendly, science-backed guide to **learning how to learn** — for students,
 online learners, and anyone who wants to learn more effectively.
 
@@ -36,6 +38,14 @@ npm run dev      # start the dev server
 npm run build    # type-check + production build
 npm run preview  # preview the production build
 ```
+
+## Deployment
+
+Pushing to `main` triggers the GitHub Actions workflow in
+`.github/workflows/deploy.yml`, which builds the app and publishes it to GitHub
+Pages at **https://edriso.github.io/how-to-learn/**. The Vite `base` is set to
+`/how-to-learn/`, and a `404.html` fallback is generated so deep links and
+refreshes work correctly.
 
 ## Project structure
 
