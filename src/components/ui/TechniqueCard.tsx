@@ -1,4 +1,5 @@
 import type { Technique, TechTier } from '@/data/learning'
+import { useI18n } from '@/i18n'
 import { cn } from '@/lib/utils'
 import { Badge } from './Badge'
 import { ExpandableCard } from './ExpandableCard'
@@ -17,47 +18,48 @@ export function TechniqueCard({
   technique: Technique
   defaultOpen?: boolean
 }) {
+  const { l, s } = useI18n()
   return (
     <ExpandableCard
       icon={technique.icon}
       accent={technique.accent}
-      title={technique.name}
-      subtitle={technique.tagline}
+      title={l(technique.name)}
+      subtitle={l(technique.tagline)}
       defaultOpen={defaultOpen}
       badge={
         <Badge className={cn(tierBadge[technique.tier])}>
-          {technique.utility}
+          {l(technique.utility)}
         </Badge>
       }
     >
       <div className="space-y-5">
         <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-          {technique.what}
+          {l(technique.what)}
         </p>
 
         <div>
           <h4 className="mb-1.5 text-sm font-semibold text-slate-900 dark:text-white">
-            Why it works
+            {s.card.whyItWorks}
           </h4>
           <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-            {technique.why}
+            {l(technique.why)}
           </p>
         </div>
 
         <div>
           <h4 className="mb-2.5 text-sm font-semibold text-slate-900 dark:text-white">
-            How to do it
+            {s.card.howToDoIt}
           </h4>
-          <Steps items={technique.steps} accent={technique.accent} />
+          <Steps items={l(technique.steps)} accent={technique.accent} />
         </div>
 
-        <ExampleBox accent={technique.accent}>{technique.example}</ExampleBox>
+        <ExampleBox accent={technique.accent}>{l(technique.example)}</ExampleBox>
 
         <div>
           <h4 className="mb-2.5 text-sm font-semibold text-slate-900 dark:text-white">
-            Common mistakes
+            {s.card.commonMistakes}
           </h4>
-          <MistakeList items={technique.mistakes} />
+          <MistakeList items={l(technique.mistakes)} />
         </div>
       </div>
     </ExpandableCard>

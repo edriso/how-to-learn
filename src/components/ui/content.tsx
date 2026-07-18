@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Lightbulb, X } from 'lucide-react'
 import { ACCENTS, type Accent } from '@/data/accents'
+import { useI18n } from '@/i18n'
 import { cn } from '@/lib/utils'
 
 /** Numbered how-to steps with accent number badges. */
@@ -34,6 +35,7 @@ export function ExampleBox({
   accent: Accent
   children: ReactNode
 }) {
+  const { s } = useI18n()
   return (
     <div className={cn('rounded-xl p-4', ACCENTS[accent].soft)}>
       <p
@@ -42,7 +44,7 @@ export function ExampleBox({
           ACCENTS[accent].text,
         )}
       >
-        Real example
+        {s.card.realExample}
       </p>
       <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300">
         {children}

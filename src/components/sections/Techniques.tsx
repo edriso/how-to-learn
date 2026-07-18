@@ -2,14 +2,16 @@ import { TECHNIQUES } from '@/data/learning'
 import { Reveal } from '@/components/ui/Reveal'
 import { Section } from '@/components/ui/Section'
 import { TechniqueCard } from '@/components/ui/TechniqueCard'
+import { useI18n } from '@/i18n'
 
 export function Techniques() {
+  const { s } = useI18n()
   return (
     <Section
       id="techniques"
-      eyebrow="Techniques"
-      title="The methods that actually work"
-      intro="These have the strongest research support. Tap any card to see what it is, why it works, how to do it, and a real example."
+      eyebrow={s.sections.techniques.eyebrow}
+      title={s.sections.techniques.title}
+      intro={s.sections.techniques.intro}
       headingWidth="lg"
       className="bg-white dark:bg-slate-900/40"
     >

@@ -2,21 +2,55 @@ import { useMemo } from 'react'
 import { Flame, Sparkles } from 'lucide-react'
 import { Card } from '@/components/ui/Card'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
+import { useI18n, type Localized } from '@/i18n'
 import { cn } from '@/lib/utils'
 
 interface Habit {
   id: string
-  label: string
+  label: Localized<string>
 }
 
 const HABITS: readonly Habit[] = [
-  { id: 'recall', label: 'Tested myself from memory (active recall)' },
-  { id: 'focus', label: 'Did a focused block with no phone' },
-  { id: 'spacing', label: 'Reviewed older material (spacing)' },
-  { id: 'breaks', label: 'Took real breaks (no doom-scrolling)' },
-  { id: 'explain', label: 'Explained an idea in my own words' },
-  { id: 'move', label: 'Moved my body / took a walk' },
-  { id: 'sleep', label: 'Slept 7–9 hours' },
+  {
+    id: 'recall',
+    label: {
+      en: 'Tested myself from memory (active recall)',
+      ar: 'اختبرتُ نفسي من الذاكرة (الاستدعاء النشط)',
+    },
+  },
+  {
+    id: 'focus',
+    label: {
+      en: 'Did a focused block with no phone',
+      ar: 'أنجزتُ فترة تركيزٍ بلا هاتف',
+    },
+  },
+  {
+    id: 'spacing',
+    label: {
+      en: 'Reviewed older material (spacing)',
+      ar: 'راجعتُ مادّةً أقدم (المباعدة)',
+    },
+  },
+  {
+    id: 'breaks',
+    label: {
+      en: 'Took real breaks (no doom-scrolling)',
+      ar: 'أخذتُ استراحاتٍ حقيقيّة (بلا تصفُّحٍ لا نهائيّ)',
+    },
+  },
+  {
+    id: 'explain',
+    label: {
+      en: 'Explained an idea in my own words',
+      ar: 'شرحتُ فكرةً بكلماتي',
+    },
+  },
+  {
+    id: 'move',
+    label: { en: 'Moved my body / took a walk', ar: 'حرَّكتُ جسمي / تمشَّيتُ' },
+  },
+  { id: 'sleep', label: { en: 'Slept 7–9 hours', ar: 'نمتُ 7–9 ساعات' } },
 ]
 
 const TOTAL = HABITS.length
@@ -68,6 +102,8 @@ const RADIUS = 34
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 
 export function HabitChecklist() {
+  const { l, s } = useI18n()
+  const t = s.tools.habits
   const [log, setLog] = useLocalStorage<HabitLog>('htl-habits', {})
 
   const today = useMemo(() => new Date(), [])
@@ -124,16 +160,16 @@ export function HabitChecklist() {
                 {doneCount}/{TOTAL}
               </span>
               <span className="text-[10px] font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">
-                Today
+                {t.today}
               </span>
             </div>
           </div>
           <div>
             <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-              Daily study habits
+              {t.title}
             </h3>
             <p className="text-sm text-slate-500 dark:text-slate-400">
-              Small habits, compounded daily.
+              {t.subtitle}
             </p>
           </div>
         </div>
@@ -148,12 +184,12 @@ export function HabitChecklist() {
             )}
           />
           <span className="text-sm font-bold text-accent-700 dark:text-accent-200">
-            {streak} day{streak === 1 ? '' : 's'}
+            {t.days(streak)}
           </span>
         </div>
       </div>
 
-      <ul className="space-y-2" aria-label="Today's habits">
+      <ul className="space-y-2" aria-label={t.ariaList}>
         {HABITS.map((habit) => {
           const checked = checkedToday.includes(habit.id)
           return (
@@ -180,7 +216,7 @@ export function HabitChecklist() {
                       : 'text-slate-700 dark:text-slate-200',
                   )}
                 >
-                  {habit.label}
+                  {l(habit.label)}
                 </span>
               </label>
             </li>
@@ -192,19 +228,17 @@ export function HabitChecklist() {
         {allDone ? (
           <p className="inline-flex items-center gap-2 text-sm font-semibold text-brand-600 dark:text-brand-300">
             <Sparkles className="h-4 w-4" />
-            Great day of learning! 🎉
+            {t.allDone}
           </p>
         ) : (
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            {doneCount === 0
-              ? 'Check off your first habit to get started.'
-              : `${TOTAL - doneCount} to go — you’ve got this.`}
+            {doneCount === 0 ? t.firstHabit : t.toGo(TOTAL - doneCount)}
           </p>
         )}
       </div>
 
       <p className="mt-3 text-center text-xs text-slate-400 dark:text-slate-500">
-        Saved on this device.
+        {s.common.savedOnDevice}
       </p>
     </Card>
   )

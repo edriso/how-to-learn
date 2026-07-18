@@ -4,9 +4,13 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", Roboto, sans-serif;
-  --font-display: "Lexend Variable", "Inter Variable", ui-sans-serif, system-ui,
+  /* "Cairo Variable" sits in the Latin stacks so stray Arabic glyphs (e.g. the
+     language switcher's own label) render correctly even in English mode. */
+  --font-sans: "Inter Variable", "Cairo Variable", ui-sans-serif, system-ui,
+    -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Lexend Variable", "Inter Variable", "Cairo Variable",
+    ui-sans-serif, system-ui, sans-serif;
+  --font-arabic: "Cairo Variable", "Inter Variable", ui-sans-serif, system-ui,
     sans-serif;
 
   /* Brand — calm, focused violet */
@@ -100,6 +104,22 @@
 
   p {
     text-wrap: pretty;
+  }
+
+  /* Arabic (RTL): lead with Cairo everywhere and drop the tight Latin tracking,
+     which harms the legibility of connected Arabic script. */
+  :where([lang="ar"]) {
+    --font-sans: var(--font-arabic);
+    --font-display: "Cairo Variable", "Lexend Variable", ui-sans-serif,
+      system-ui, sans-serif;
+  }
+
+  :where([lang="ar"]) h1,
+  :where([lang="ar"]) h2,
+  :where([lang="ar"]) h3,
+  :where([lang="ar"]) h4,
+  :where([lang="ar"]) h5 {
+    letter-spacing: normal;
   }
 
   ::selection {

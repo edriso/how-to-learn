@@ -2,15 +2,17 @@ import { ACCENTS } from '@/data/accents'
 import { SCIENCE } from '@/data/learning'
 import { Reveal } from '@/components/ui/Reveal'
 import { Section } from '@/components/ui/Section'
+import { useI18n } from '@/i18n'
 import { cn } from '@/lib/utils'
 
 export function Science() {
+  const { l, s } = useI18n()
   return (
     <Section
       id="science"
-      eyebrow="The Science"
-      title="How your brain learns"
-      intro="Understand the machine first — then every technique makes sense."
+      eyebrow={s.sections.science.eyebrow}
+      title={s.sections.science.title}
+      intro={s.sections.science.intro}
       headingWidth="lg"
     >
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -28,7 +30,7 @@ export function Science() {
                   <Icon className="h-6 w-6" />
                 </span>
                 <h3 className="mt-4 font-display text-lg font-semibold text-slate-900 dark:text-white">
-                  {concept.title}
+                  {l(concept.title)}
                 </h3>
                 <p
                   className={cn(
@@ -36,10 +38,10 @@ export function Science() {
                     ACCENTS[concept.accent].text,
                   )}
                 >
-                  {concept.oneLiner}
+                  {l(concept.oneLiner)}
                 </p>
                 <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                  {concept.body}
+                  {l(concept.body)}
                 </p>
                 {concept.analogy && (
                   <p
@@ -48,7 +50,7 @@ export function Science() {
                       ACCENTS[concept.accent].soft,
                     )}
                   >
-                    {concept.analogy}
+                    {l(concept.analogy)}
                   </p>
                 )}
               </article>

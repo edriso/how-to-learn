@@ -4,8 +4,10 @@ import { AnimatePresence, motion } from 'motion/react'
 import { NAV_SECTIONS } from '@/data/nav'
 import { useScrollSpy } from '@/hooks/useScrollSpy'
 import { useTheme } from '@/hooks/useTheme'
+import { useI18n } from '@/i18n'
 import { cn } from '@/lib/utils'
 import { ThemeToggle } from './ThemeToggle'
+import { LanguageToggle } from './LanguageToggle'
 
 const SECTION_IDS = NAV_SECTIONS.map((section) => section.id)
 
@@ -14,6 +16,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const activeId = useScrollSpy(SECTION_IDS)
   const { theme, toggleTheme } = useTheme()
+  const { l, s } = useI18n()
   const isDark = theme === 'dark'
 
   useEffect(() => {
@@ -49,7 +52,7 @@ export function Navbar() {
     >
       <nav
         className="container-page flex h-16 items-center justify-between gap-4"
-        aria-label="Primary"
+        aria-label={s.nav.primary}
       >
         <a
           href="#top"
@@ -60,7 +63,7 @@ export function Navbar() {
             <GraduationCap className="h-5 w-5" />
           </span>
           <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">
-            How to Learn
+            {s.brand}
           </span>
         </a>
 
@@ -85,18 +88,19 @@ export function Navbar() {
                     transition={{ type: 'spring', stiffness: 400, damping: 32 }}
                   />
                 )}
-                {section.label}
+                {l(section.label)}
               </a>
             )
           })}
         </div>
 
         <div className="flex items-center gap-2">
+          <LanguageToggle />
           <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}
-            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-label={open ? s.nav.closeMenu : s.nav.openMenu}
             aria-expanded={open}
             className="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-700 ring-1 ring-slate-200/80 transition hover:bg-slate-100 lg:hidden dark:text-slate-200 dark:ring-slate-700/80 dark:hover:bg-slate-800"
           >
@@ -127,7 +131,7 @@ export function Navbar() {
                       : 'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800',
                   )}
                 >
-                  {section.label}
+                  {l(section.label)}
                 </a>
               ))}
               <a
@@ -135,7 +139,7 @@ export function Navbar() {
                 onClick={() => setOpen(false)}
                 className="rounded-xl px-4 py-3 text-base font-medium text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
               >
-                Sources
+                {s.nav.sources}
               </a>
             </div>
           </motion.div>

@@ -38,7 +38,7 @@ export function ExpandableCard({
         type="button"
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
-        className="flex w-full items-center gap-4 p-5 text-left"
+        className="flex w-full items-center gap-4 p-5 text-start"
       >
         <span
           className={cn(

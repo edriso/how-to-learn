@@ -1,13 +1,9 @@
 import { GraduationCap, Sparkles } from 'lucide-react'
 import { NAV_SECTIONS } from '@/data/nav'
-
-const MORE_LINKS = [
-  { id: 'traps', label: 'Traps to Avoid' },
-  { id: 'plan', label: 'Study Plan' },
-  { id: 'sources', label: 'Sources' },
-]
+import { useI18n } from '@/i18n'
 
 export function Footer() {
+  const { l, s } = useI18n()
   return (
     <footer className="border-t border-slate-200/80 bg-white dark:border-slate-800 dark:bg-slate-950">
       <div className="container-page py-14">
@@ -18,23 +14,21 @@ export function Footer() {
                 <GraduationCap className="h-5 w-5" />
               </span>
               <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">
-                How to Learn
+                {s.brand}
               </span>
             </a>
             <p className="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-              A free, friendly guide to learning how to learn — built on proven,
-              science-backed methods. Study smarter, remember longer, and reach
-              your goals.
+              {s.footer.description}
             </p>
             <p className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-brand-600 dark:text-brand-400">
               <Sparkles className="h-3.5 w-3.5" />
-              Grounded in cited research
+              {s.footer.grounded}
             </p>
           </div>
 
-          <nav aria-label="Guide sections">
+          <nav aria-label={s.footer.ariaGuide}>
             <h2 className="text-sm font-semibold text-slate-900 dark:text-white">
-              The guide
+              {s.footer.guideHeading}
             </h2>
             <ul className="mt-4 space-y-2.5 text-sm">
               {NAV_SECTIONS.map((section) => (
@@ -43,19 +37,19 @@ export function Footer() {
                     href={`#${section.id}`}
                     className="text-slate-600 transition-colors hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-300"
                   >
-                    {section.label}
+                    {l(section.label)}
                   </a>
                 </li>
               ))}
             </ul>
           </nav>
 
-          <nav aria-label="More">
+          <nav aria-label={s.footer.ariaMore}>
             <h2 className="text-sm font-semibold text-slate-900 dark:text-white">
-              More
+              {s.footer.moreHeading}
             </h2>
             <ul className="mt-4 space-y-2.5 text-sm">
-              {MORE_LINKS.map((link) => (
+              {s.footer.moreLinks.map((link) => (
                 <li key={link.id}>
                   <a
                     href={`#${link.id}`}
@@ -70,11 +64,8 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col gap-3 border-t border-slate-200/80 pt-6 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800 dark:text-slate-500">
-          <p>
-            Built as a free learning resource. This is general education, not
-            medical or professional advice.
-          </p>
-          <p>Learn how to learn — then learn anything.</p>
+          <p>{s.footer.disclaimer}</p>
+          <p>{s.footer.tagline}</p>
         </div>
       </div>
     </footer>

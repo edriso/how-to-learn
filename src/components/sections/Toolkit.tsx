@@ -8,6 +8,7 @@ import {
 import { ACCENTS, type Accent } from '@/data/accents'
 import { Reveal } from '@/components/ui/Reveal'
 import { Section } from '@/components/ui/Section'
+import { useI18n, type Localized } from '@/i18n'
 import { cn } from '@/lib/utils'
 import { Flashcards } from '@/components/tools/Flashcards'
 import { HabitChecklist } from '@/components/tools/HabitChecklist'
@@ -19,8 +20,8 @@ interface ToolEntry {
   id: string
   icon: LucideIcon
   accent: Accent
-  title: string
-  description: string
+  title: Localized<string>
+  description: Localized<string>
   node: ReactNode
 }
 
@@ -29,45 +30,56 @@ const TOOLS: ToolEntry[] = [
     id: 'pomodoro',
     icon: Timer,
     accent: 'violet',
-    title: 'Focus Timer',
-    description:
-      'Beat procrastination with focused 25-minute sessions and timed breaks.',
+    title: { en: 'Focus Timer', ar: 'مؤقّت التركيز' },
+    description: {
+      en: 'Beat procrastination with focused 25-minute sessions and timed breaks.',
+      ar: 'اهزِم التسويف بجلسات تركيزٍ مدّتها 25 دقيقةً واستراحاتٍ موقوتة.',
+    },
     node: <PomodoroTimer />,
   },
   {
     id: 'flashcards',
     icon: Layers,
     accent: 'fuchsia',
-    title: 'Active-Recall Flashcards',
-    description:
-      'Practice the single most powerful method with a quick demo deck.',
+    title: { en: 'Active-Recall Flashcards', ar: 'بطاقات الاستدعاء النشط' },
+    description: {
+      en: 'Practice the single most powerful method with a quick demo deck.',
+      ar: 'تمرَّن على أقوى طريقةٍ منفردةٍ عبر مجموعةٍ تجريبيّةٍ سريعة.',
+    },
     node: <Flashcards />,
   },
   {
     id: 'spacing',
     icon: CalendarClock,
     accent: 'sky',
-    title: 'Spaced-Review Planner',
-    description: 'Turn any topic into a spaced review plan so you forget less.',
+    title: { en: 'Spaced-Review Planner', ar: 'مُخطِّط المراجعة المتباعدة' },
+    description: {
+      en: 'Turn any topic into a spaced review plan so you forget less.',
+      ar: 'حوِّل أيّ موضوعٍ إلى خطّة مراجعةٍ متباعدةٍ لتنسى أقلّ.',
+    },
     node: <SpacedRepetition />,
   },
   {
     id: 'habits',
     icon: ListChecks,
     accent: 'amber',
-    title: 'Daily Habit Tracker',
-    description: 'Check off good study habits and build a learning streak.',
+    title: { en: 'Daily Habit Tracker', ar: 'مُتتبِّع العادات اليوميّة' },
+    description: {
+      en: 'Check off good study habits and build a learning streak.',
+      ar: 'علِّم عادات الدراسة الجيّدة وابنِ سلسلة تعلُّمٍ متواصلة.',
+    },
     node: <HabitChecklist />,
   },
 ]
 
 export function Toolkit() {
+  const { l, s } = useI18n()
   return (
     <Section
       id="toolkit"
-      eyebrow="Toolkit"
-      title="Try it right now"
-      intro="Reading about learning is not learning. Use these free, hands-on tools to practice the methods — your progress saves right here on your device."
+      eyebrow={s.sections.toolkit.eyebrow}
+      title={s.sections.toolkit.title}
+      intro={s.sections.toolkit.intro}
       headingWidth="lg"
       className="bg-white dark:bg-slate-900/40"
     >
@@ -88,10 +100,10 @@ export function Toolkit() {
                   </span>
                   <div>
                     <h3 className="font-display text-lg font-semibold text-slate-900 dark:text-white">
-                      {tool.title}
+                      {l(tool.title)}
                     </h3>
                     <p className="mt-0.5 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-                      {tool.description}
+                      {l(tool.description)}
                     </p>
                   </div>
                 </div>

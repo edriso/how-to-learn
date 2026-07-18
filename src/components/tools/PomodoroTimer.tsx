@@ -3,6 +3,7 @@ import { Pause, Play, RotateCcw, Settings } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
+import { useI18n } from '@/i18n'
 import { cn } from '@/lib/utils'
 
 type Mode = 'focus' | 'short' | 'long'
@@ -14,12 +15,6 @@ interface Settings {
 }
 
 const DEFAULT_SETTINGS: Settings = { focus: 25, short: 5, long: 15 }
-
-const MODE_LABEL: Record<Mode, string> = {
-  focus: 'Focus',
-  short: 'Short break',
-  long: 'Long break',
-}
 
 const MODE_ACCENT: Record<Mode, string> = {
   focus: 'text-brand-600 dark:text-brand-300',
@@ -81,6 +76,8 @@ const RADIUS = 130
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 
 export function PomodoroTimer() {
+  const { s } = useI18n()
+  const t = s.tools.pomodoro
   const [settings, setSettings] = useLocalStorage<Settings>(
     'htl-pomodoro-settings',
     DEFAULT_SETTINGS,
@@ -168,12 +165,12 @@ export function PomodoroTimer() {
   useEffect(() => {
     const previous = document.title
     if (running) {
-      document.title = `${formatTime(remaining)} · ${MODE_LABEL[mode]}`
+      document.title = `${formatTime(remaining)} · ${t.modeFull[mode]}`
     }
     return () => {
       document.title = previous
     }
-  }, [running, remaining, mode])
+  }, [running, remaining, mode, t])
 
   // Reflect settings edits on the clock only while the phase is fresh
   // (not started/paused) — so pausing never snaps back to full time.
@@ -226,7 +223,7 @@ export function PomodoroTimer() {
         <div
           className="inline-flex rounded-full bg-slate-100 p-1 dark:bg-slate-800"
           role="group"
-          aria-label="Timer mode"
+          aria-label={t.ariaMode}
         >
           {(['focus', 'short', 'long'] as const).map((m) => (
             <button
@@ -241,14 +238,14 @@ export function PomodoroTimer() {
                   : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200',
               )}
             >
-              {m === 'focus' ? 'Focus' : m === 'short' ? 'Short' : 'Long'}
+              {t.modeShort[m]}
             </button>
           ))}
         </div>
         <button
           type="button"
-          onClick={() => setShowSettings((s) => !s)}
-          aria-label="Timer settings"
+          onClick={() => setShowSettings((prev) => !prev)}
+          aria-label={t.ariaSettings}
           aria-expanded={showSettings}
           className="rounded-full p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200"
         >
@@ -260,7 +257,7 @@ export function PomodoroTimer() {
         <div className="mb-6 grid grid-cols-3 gap-3 rounded-xl border border-slate-200/80 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-800/50">
           {(['focus', 'short', 'long'] as const).map((m) => (
             <label key={m} className="flex flex-col gap-1 text-xs font-medium text-slate-600 dark:text-slate-300">
-              <span>{m === 'focus' ? 'Focus' : m === 'short' ? 'Short' : 'Long'}</span>
+              <span>{t.modeShort[m]}</span>
               <input
                 type="number"
                 min={1}
@@ -273,12 +270,12 @@ export function PomodoroTimer() {
                   }))
                 }
                 className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
-                aria-label={`${MODE_LABEL[m]} minutes`}
+                aria-label={`${t.modeFull[m]} ${t.minutesUnit}`}
               />
             </label>
           ))}
           <p className="col-span-3 text-xs text-slate-400 dark:text-slate-500">
-            Minutes per phase (1–90).
+            {t.minutesHint}
           </p>
         </div>
       )}
@@ -318,7 +315,7 @@ export function PomodoroTimer() {
               {formatTime(remaining)}
             </span>
             <span className={cn('mt-1 text-sm font-semibold', MODE_ACCENT[mode])}>
-              {MODE_LABEL[mode]}
+              {t.modeFull[mode]}
             </span>
           </div>
         </div>
@@ -329,15 +326,15 @@ export function PomodoroTimer() {
           onClick={toggleRun}
           size="lg"
           className="min-w-[140px]"
-          aria-label={running ? 'Pause timer' : 'Start timer'}
+          aria-label={running ? t.ariaPause : t.ariaStart}
         >
           {running ? (
             <>
-              <Pause className="h-5 w-5" /> Pause
+              <Pause className="h-5 w-5" /> {t.pause}
             </>
           ) : (
             <>
-              <Play className="h-5 w-5" /> Start
+              <Play className="h-5 w-5" /> {t.start}
             </>
           )}
         </Button>
@@ -345,7 +342,7 @@ export function PomodoroTimer() {
           onClick={reset}
           variant="secondary"
           size="lg"
-          aria-label="Reset timer"
+          aria-label={t.ariaReset}
         >
           <RotateCcw className="h-5 w-5" />
         </Button>
@@ -354,7 +351,7 @@ export function PomodoroTimer() {
       <div className="mt-6 flex flex-col items-center gap-2 border-t border-slate-200/80 pt-5 dark:border-slate-800">
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
-            Today: {completed}
+            {t.today}: {completed}
           </span>
           <div className="flex gap-1" aria-hidden="true">
             {Array.from({ length: 8 }, (_, i) => (
@@ -379,7 +376,7 @@ export function PomodoroTimer() {
             }}
             className="text-xs font-medium text-slate-400 underline-offset-2 hover:text-slate-600 hover:underline dark:text-slate-500 dark:hover:text-slate-300"
           >
-            Reset count
+            {t.resetCount}
           </button>
         )}
       </div>

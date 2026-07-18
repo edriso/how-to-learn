@@ -1,14 +1,13 @@
 import { ArrowRight, Brain, CalendarClock, Shuffle, Sparkles } from 'lucide-react'
 import { motion } from 'motion/react'
 import { ButtonLink } from '@/components/ui/Button'
+import { useI18n } from '@/i18n'
 
-const TEASERS = [
-  { icon: Brain, label: 'Active recall' },
-  { icon: CalendarClock, label: 'Spaced practice' },
-  { icon: Shuffle, label: 'Interleaving' },
-]
+const TEASER_ICONS = [Brain, CalendarClock, Shuffle]
 
 export function Hero() {
+  const { s } = useI18n()
+  const teasers = TEASER_ICONS.map((icon, i) => ({ icon, label: s.hero.teasers[i] }))
   return (
     <section
       id="top"
@@ -33,7 +32,7 @@ export function Hero() {
             className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/70 px-4 py-1.5 text-sm font-medium text-slate-700 shadow-soft backdrop-blur transition-colors hover:text-brand-700 dark:border-slate-700/70 dark:bg-slate-900/70 dark:text-slate-200 dark:hover:text-brand-300"
           >
             <Sparkles className="h-4 w-4 text-brand-500" />
-            A free, science-backed guide
+            {s.hero.badge}
           </motion.a>
 
           <motion.h1
@@ -42,7 +41,9 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.05 }}
             className="mt-6 text-4xl font-extrabold tracking-tight sm:text-6xl"
           >
-            Learn how to <span className="text-gradient">learn</span>.
+            {s.hero.titleBefore}
+            <span className="text-gradient">{s.hero.titleHighlight}</span>
+            {s.hero.titleAfter}
           </motion.h1>
 
           <motion.p
@@ -51,9 +52,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.12 }}
             className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-slate-600 sm:text-xl dark:text-slate-300"
           >
-            Most of us were never taught how to study. This guide shares the
-            proven methods that help you learn faster, remember longer, and reach
-            your goals — all in plain, simple English.
+            {s.hero.subtitle}
           </motion.p>
 
           <motion.div
@@ -63,11 +62,11 @@ export function Hero() {
             className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
             <ButtonLink href="#start" size="lg">
-              Start the guide
-              <ArrowRight className="h-4 w-4" />
+              {s.hero.ctaPrimary}
+              <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
             </ButtonLink>
             <ButtonLink href="#toolkit" size="lg" variant="secondary">
-              Open the toolkit
+              {s.hero.ctaSecondary}
             </ButtonLink>
           </motion.div>
 
@@ -77,7 +76,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.26 }}
             className="mt-10 flex flex-wrap items-center justify-center gap-2.5"
           >
-            {TEASERS.map(({ icon: Icon, label }) => (
+            {teasers.map(({ icon: Icon, label }) => (
               <li
                 key={label}
                 className="inline-flex items-center gap-1.5 rounded-full bg-white/70 px-3.5 py-1.5 text-sm font-medium text-slate-600 ring-1 ring-slate-200/70 backdrop-blur dark:bg-slate-900/60 dark:text-slate-300 dark:ring-slate-700/60"

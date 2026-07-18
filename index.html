@@ -19,13 +19,26 @@
     <meta property="og:type" content="website" />
     <title>How to Learn — Your Guide to Learning How to Learn</title>
     <script>
-      // Apply the saved theme before first paint to avoid a flash of the wrong theme.
+      // Apply the saved theme + language before first paint to avoid a flash of
+      // the wrong theme or a layout jump when switching between LTR and RTL.
       (function () {
+        var root = document.documentElement
         try {
-          var saved = localStorage.getItem('htl-theme')
+          var savedTheme = localStorage.getItem('htl-theme')
           var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-          var isDark = saved ? saved === 'dark' : prefersDark
-          document.documentElement.classList.toggle('dark', isDark)
+          var isDark = savedTheme ? savedTheme === 'dark' : prefersDark
+          root.classList.toggle('dark', isDark)
+        } catch (e) {}
+        try {
+          var savedLang = localStorage.getItem('htl-lang')
+          var lang =
+            savedLang === 'ar' || savedLang === 'en'
+              ? savedLang
+              : (navigator.language || '').toLowerCase().indexOf('ar') === 0
+                ? 'ar'
+                : 'en'
+          root.lang = lang
+          root.dir = lang === 'ar' ? 'rtl' : 'ltr'
         } catch (e) {}
       })()
     </script>

@@ -3,28 +3,30 @@ import { ACCENTS } from '@/data/accents'
 import { BIG_IDEA, SUPER_STRATEGIES } from '@/data/learning'
 import { Reveal } from '@/components/ui/Reveal'
 import { Section } from '@/components/ui/Section'
+import { useI18n } from '@/i18n'
 import { cn } from '@/lib/utils'
 
 export function StartHere() {
+  const { l, s } = useI18n()
   return (
     <Section
       id="start"
-      eyebrow="Start Here"
-      title="The one big idea"
-      intro="If you remember nothing else, remember this. It powers almost everything in this guide."
+      eyebrow={s.sections.start.eyebrow}
+      title={s.sections.start.title}
+      intro={s.sections.start.intro}
     >
       <Reveal className="mx-auto max-w-3xl">
         <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-brand-600 to-brand-800 p-8 text-white shadow-lift sm:p-12">
-          <Quote className="absolute top-6 right-6 h-16 w-16 text-white/10" />
+          <Quote className="absolute top-6 end-6 h-16 w-16 text-white/10 rtl:-scale-x-100" />
           <p className="font-display text-2xl leading-snug font-semibold sm:text-3xl">
-            {`“${BIG_IDEA.quote}”`}
+            {`“${l(BIG_IDEA.quote)}”`}
           </p>
           <p className="mt-6 leading-relaxed text-brand-50/90">
-            {BIG_IDEA.body}
+            {l(BIG_IDEA.body)}
           </p>
           <div className="mt-8 inline-flex flex-wrap items-center gap-x-2 gap-y-1 rounded-full bg-white/15 px-4 py-2 text-sm font-semibold backdrop-blur">
-            <span className="text-accent-300">The golden rule:</span>
-            <span>{BIG_IDEA.rule}</span>
+            <span className="text-accent-300">{s.startHere.goldenRule}</span>
+            <span>{l(BIG_IDEA.rule)}</span>
           </div>
         </div>
       </Reveal>
@@ -32,10 +34,10 @@ export function StartHere() {
       <div className="mx-auto mt-14 max-w-5xl">
         <Reveal className="mb-8 text-center">
           <h3 className="font-display text-2xl font-bold text-slate-900 dark:text-white">
-            The 3 super-strategies
+            {s.startHere.superTitle}
           </h3>
           <p className="mt-2 text-slate-600 dark:text-slate-400">
-            Everything else in the guide builds on these three.
+            {s.startHere.superIntro}
           </p>
         </Reveal>
 
@@ -54,7 +56,7 @@ export function StartHere() {
                     <Icon className="h-6 w-6" />
                   </span>
                   <h4 className="mt-4 font-display text-lg font-semibold text-slate-900 dark:text-white">
-                    {strategy.title}
+                    {l(strategy.title)}
                   </h4>
                   <p
                     className={cn(
@@ -62,10 +64,10 @@ export function StartHere() {
                       ACCENTS[strategy.accent].text,
                     )}
                   >
-                    {strategy.short}
+                    {l(strategy.short)}
                   </p>
                   <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                    {strategy.detail}
+                    {l(strategy.detail)}
                   </p>
                 </div>
               </Reveal>
